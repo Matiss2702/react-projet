@@ -1,0 +1,95 @@
+POST http://localhost:3002/register
+Content-Type: application/json
+
+{
+  "username": "test2",
+  "password": "test3"
+}
+###
+POST http://localhost:3002/login
+Content-Type: application/json
+
+{
+  "username": "test2",
+  "password": "test3"
+}
+
+# username: test, token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIyNGFlZmJiYi04ZGVmLTRlMmMtYjE5YS05MjlmZjU1MDIwYzAiLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2MzczMjEwODUsImV4cCI6MTY2ODg3ODY4NX0.mE6rJgcC3HSi-vDyzjsyP1XKYv_SK9BL_NAZ66MOWzQ
+# username: test2, token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJmNzE0N2NlYy1iZmZjLTQyZjUtODZmMS1mZjY2MTFiYmQxNjYiLCJ1c2VybmFtZSI6InRlc3QyIiwiaWF0IjoxNjY5MDgxMzE5LCJleHAiOjE3MDA2Mzg5MTl9.euuCHoRptShkZ4CQV40aH-9vX2mew3gVPKBjj4nPUMY
+# username: test3, token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJjZjQ0NzM1NC0zZjViLTRmOWYtOGNiZC04NjFlODA5NTIwYTIiLCJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNjY5MDgxMjI3LCJleHAiOjE3MDA2Mzg4Mjd9.E1RNT88N-yrZPRl4H8OfbMJ6jySjERj2Luq990Lq7q8
+
+### GET Matches
+GET http://localhost:3002/matches
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJjZjQ0NzM1NC0zZjViLTRmOWYtOGNiZC04NjFlODA5NTIwYTIiLCJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNjY5MDgxMjI3LCJleHAiOjE3MDA2Mzg4Mjd9.E1RNT88N-yrZPRl4H8OfbMJ6jySjERj2Luq990Lq7q8
+
+### GET Match test2
+GET http://localhost:3002/matches/637c28a4e5560fe81450abef
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJmNzE0N2NlYy1iZmZjLTQyZjUtODZmMS1mZjY2MTFiYmQxNjYiLCJ1c2VybmFtZSI6InRlc3QyIiwiaWF0IjoxNjY5MDgxMzE5LCJleHAiOjE3MDA2Mzg5MTl9.euuCHoRptShkZ4CQV40aH-9vX2mew3gVPKBjj4nPUMY
+
+### GET Match test3
+GET http://localhost:3002/matches/637c28a4e5560fe81450abef
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJjZjQ0NzM1NC0zZjViLTRmOWYtOGNiZC04NjFlODA5NTIwYTIiLCJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNjY5MDgxMjI3LCJleHAiOjE3MDA2Mzg4Mjd9.E1RNT88N-yrZPRl4H8OfbMJ6jySjERj2Luq990Lq7q8
+
+
+### POST MATCH test3
+POST http://localhost:3002/matches
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJjZjQ0NzM1NC0zZjViLTRmOWYtOGNiZC04NjFlODA5NTIwYTIiLCJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNjY5MDgxMjI3LCJleHAiOjE3MDA2Mzg4Mjd9.E1RNT88N-yrZPRl4H8OfbMJ6jySjERj2Luq990Lq7q8
+
+### POST MATCH test2
+POST http://localhost:3002/matches
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJmNzE0N2NlYy1iZmZjLTQyZjUtODZmMS1mZjY2MTFiYmQxNjYiLCJ1c2VybmFtZSI6InRlc3QyIiwiaWF0IjoxNjY5MDgxMzE5LCJleHAiOjE3MDA2Mzg5MTl9.euuCHoRptShkZ4CQV40aH-9vX2mew3gVPKBjj4nPUMY
+
+
+### POST MOVE 1 test
+POST http://localhost:3002/matches/61b096d105be72d00a5ce3c0/turns/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJhYmFiZmFlOC02MmUzLTQyODEtOTIyOS03NzFlODE5MmI3NTQiLCJ1c2VybmFtZSI6ImthcmwiLCJpYXQiOjE2MzkwNDEwNTcsImV4cCI6MTY3MDU5ODY1N30.HuCElq9SzXbHh9RPy6kMJx52f2lvWlsspuP6gEzUZhs
+
+{
+  "move": "rock"
+}
+
+### POST MOVE 1 test2
+POST http://localhost:3002/matches/61b096d105be72d00a5ce3c0/turns/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTA1ZTU0Ni1lZjBhLTQ5MzctOWQ2MS1hYzQxYjVlNTk0NzUiLCJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNjM5MDQxNTk2LCJleHAiOjE2NzA1OTkxOTZ9.fpsZ0kTRCS4r-Gy9Bi4GSoKZZwBSfL_UTIcQf85hZl4
+
+{
+  "move": "rock"
+}
+
+### POST MOVE 2 test
+POST http://localhost:3002/matches/61b096d105be72d00a5ce3c0/turns/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIyNGFlZmJiYi04ZGVmLTRlMmMtYjE5YS05MjlmZjU1MDIwYzAiLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2MzczMjEwODUsImV4cCI6MTY2ODg3ODY4NX0.mE6rJgcC3HSi-vDyzjsyP1XKYv_SK9BL_NAZ66MOWzQ
+
+{
+  "move": "rock"
+}
+
+### POST MOVE 2 test2
+POST http://localhost:3002/matches/61b096d105be72d00a5ce3c0/turns/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTA1ZTU0Ni1lZjBhLTQ5MzctOWQ2MS1hYzQxYjVlNTk0NzUiLCJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNjM5MDQxNTk2LCJleHAiOjE2NzA1OTkxOTZ9.fpsZ0kTRCS4r-Gy9Bi4GSoKZZwBSfL_UTIcQf85hZl4
+
+{
+  "move": "rock"
+}
+
+### POST MOVE 3 test
+POST http://localhost:3002/matches/61979af0b43a2d12d721054e/turns/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIyNGFlZmJiYi04ZGVmLTRlMmMtYjE5YS05MjlmZjU1MDIwYzAiLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2MzczMjEwODUsImV4cCI6MTY2ODg3ODY4NX0.mE6rJgcC3HSi-vDyzjsyP1XKYv_SK9BL_NAZ66MOWzQ
+
+{
+  "move": "rock"
+}
+
+### POST MOVE 3 test2
+POST http://localhost:3002/matches/61979af0b43a2d12d721054e/turns/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI5ZmNiYzU3ZS1iNGExLTRhN2MtYmMyYS1jNjE5YjgzMDY2YjkiLCJ1c2VybmFtZSI6InRlc3QyIiwiaWF0IjoxNjM3MzIxMDcyLCJleHAiOjE2Njg4Nzg2NzJ9.4lRu-oi-5punFTcw4XlDSH6A1-z-oR-HTLTmZF2B43E
+
+{
+  "move": "rock"
+}
