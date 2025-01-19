@@ -1,3 +1,4 @@
 node_modules
 ecosystem.config.js
 .env.local
+.env

@@ -70,6 +70,7 @@ app.post("/matches", verifyJwt(), async function (req, res) {
         user1: req.user,
         user2: null,
         turns: [],
+        createdAt: new Date(),
       });
       event.type = "PLAYER1_JOIN";
       event.payload = {
@@ -102,10 +103,15 @@ app.post("/matches", verifyJwt(), async function (req, res) {
 });
 app.get("/matches", verifyJwt(), async function (req, res) {
   try {
-    console.log(req.user);
-    const match = await Match.find({
-      $or: [{ "user1._id": req.user._id }, { "user2._id": req.user._id }],
-    });
+    const { order, itemsPerPage, page, ...criteria } = req.query;
+    const match = await Match.find(
+      {
+        ...criteria,
+        $or: [{ "user1._id": req.user._id }, { "user2._id": req.user._id }],
+      },
+      null,
+      { sort: order, skip: (page - 1) * itemsPerPage, limit: itemsPerPage }
+    );
     if (match)
       res.json(
         match.map((m) => {
