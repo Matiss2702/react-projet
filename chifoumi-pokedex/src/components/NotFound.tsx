@@ -1,18 +1,17 @@
-import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-function NotFound () {
+function NotFound() {
   return (
-    <Layout title="404 - Page not found">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-7xl font-bold">404</h1>
-        <p className="text-xl">Page not found</p>
-        <Button>
-          <Link to="/">Go back to home</Link>
-        </Button>
-      </div>
-    </Layout>
+    <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-white">
+      <h1 className="font-bold text-7xl">404</h1>
+      <p className="text-xl">Page not found</p>
+      <Button>
+        <Link to="/" className="text-white">
+          Go back to home
+        </Link>
+      </Button>
+    </div>
   );
 }
 
