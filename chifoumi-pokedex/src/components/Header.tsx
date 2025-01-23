@@ -40,6 +40,9 @@ function Header() {
             <Link to="/auth/register" className="transition hover:underline hover:text-yellow-300">
               Inscription
             </Link>
+            <Link to="/game/matchlist" className="transition hover:underline hover:text-yellow-300">
+              game
+            </Link>
 
             {/* Dropdown Category */}
             <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
