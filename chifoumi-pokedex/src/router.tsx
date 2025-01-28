@@ -4,6 +4,7 @@ import { authRouter } from "@/pages/auth/router";
 import { categoryRouter } from "@/pages/category/router";
 import NotFound from "@/components/NotFound";
 import { gameRouter } from "./pages/game/router";
+import { userRouter } from "./pages/user/router";
 
 export const rootRouter = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ export const rootRouter = createBrowserRouter([
       ...authRouter,
       ...categoryRouter,
       ...gameRouter,
+      ...userRouter,
       {
         path: "*",
         element: <NotFound />,
