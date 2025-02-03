@@ -1,18 +1,8 @@
-import {
-  House,
-  Info,
-} from "lucide-react"
-
-import { NavMain } from "@/components/AccountNavMain"
-import { NavUser } from "@/components/AccountNavUser"
-import { NavHeader } from "@/components/AccountHeader"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from "@/components/ui/sidebar"
+import { House, LogOut } from "lucide-react";
+import { useUser } from "@/context/UserContext";
+import { NavHeader } from "@/components/AccountHeader";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
 
 const data = {
   homes: [
@@ -22,31 +12,33 @@ const data = {
       icon: House,
     },
   ],
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  items: [
-    {
-      name: "Infos",
-      url: "/account/infos",
-      icon: Info,
-    },
-  ],
-}
+};
 
 export function AppSidebar({ ...props }) {
+  const { userId, clearUser } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearUser();
+    navigate("/auth/login");
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <NavHeader homes={data.homes}/>
+        <NavHeader homes={data.homes} />
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.items} />
-      </SidebarContent>
+      <SidebarContent></SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {userId && (
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-sm font-medium text-red-500 hover:text-red-600"
+          >
+            <LogOut className="w-4 h-4" />
+            Déconnexion
+          </button>
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

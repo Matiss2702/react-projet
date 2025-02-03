@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AccountSidebar";
 import { Separator } from "@/components/ui/separator";
-import JoinGame from "@/components/JoinGame";
 import { Outlet, useLocation } from "react-router-dom";
 
 interface LayoutProps {
@@ -30,7 +29,6 @@ function Layout({ title = "" }: LayoutProps) {
               <div className="flex items-center justify-between w-full gap-2 px-4">
                 <SidebarTrigger className="-ml-1" />
                 <Separator orientation="vertical" className="h-4 mr-2" />
-                <JoinGame />
               </div>
             </header>
             <main className="flex flex-col flex-1 gap-4 p-4">
