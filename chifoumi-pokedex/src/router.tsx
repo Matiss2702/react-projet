@@ -1,24 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Router } from "./constants/type.ts";
-import Home from "./Home.tsx";
-import { pokedexRouter } from "./pages/pokedex/router.tsx";
+import { authRouter } from "@/pages/auth/router";
+import { categoryRouter } from "@/pages/category/router";
+import NotFound from "@/components/NotFound";
+import { gameRouter } from "./pages/game/router";
+import { userRouter } from "./pages/user/router";
+import { homeRouter } from "./pages/home/router";
 
-const rootRoutes: Router[] = [
+export const rootRouter = createBrowserRouter([
   {
     path: "/",
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
+      ...homeRouter,
+      ...userRouter,
+      ...authRouter,
+      ...categoryRouter,
+      ...gameRouter,
       {
         path: "*",
+        element: <NotFound />,
       },
-      ...pokedexRouter
     ],
   },
-];
-
-export const rootRouter = createBrowserRouter(rootRoutes, {
-  basename: "/",
-});
+]);

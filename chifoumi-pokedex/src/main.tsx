@@ -1,15 +1,17 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import { RecoilRoot } from 'recoil';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import { rootRouter } from "./router";
-import "./index.css";
+import { HelmetProvider } from "react-helmet-async";
+import { rootRouter } from "@/router";
+import "@/index.css";
+import { UserProvider } from "@/context/UserContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RecoilRoot>
-    <RouterProvider router={rootRouter} />
-    </RecoilRoot>
+    <HelmetProvider>
+      <UserProvider>
+        <RouterProvider router={rootRouter} />
+      </UserProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
