@@ -15,7 +15,7 @@ export default function Register() {
         username,
         password,
       });
-      navigate("/login");
+      navigate("/auth/login");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         console.error("Erreur lors de l'inscription :", err.response);
