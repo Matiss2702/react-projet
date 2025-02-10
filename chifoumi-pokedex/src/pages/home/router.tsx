@@ -1,14 +1,14 @@
-import AccountPage from "./AccountPage";
+import HomePage from "./HomePage";
 import Layout from "@/Layout";
 
-export const userRouter = [
+export const homeRouter = [
   {
-    path: "account",
+    path: "",
     element: <Layout />,
     children: [
       {
         path: "",
-        element: <AccountPage />,
+        element: <HomePage />,
       },
     ],
   },

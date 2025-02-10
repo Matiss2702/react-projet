@@ -37,11 +37,9 @@ export default function Login() {
 
         setError("Identifiants invalides. Veuillez réessayer.");
       } else if (err instanceof Error) {
-        // Erreur standard JS/TS
         console.error("Erreur de connexion :", err.message);
         setError(err.message);
       } else {
-        // Cas extrême: type inattendu
         console.error("Erreur inconnue :", err);
         setError("Une erreur inconnue est survenue.");
       }
