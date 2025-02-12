@@ -63,6 +63,7 @@ export default function Fire() {
             }`}
           >
             <img src={card.imageUrl} alt={card.name} className="object-contain w-full h-full bg-center bg-no-repeat" />
+            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded-md">{card.name}</div> {/* Affichage du nom */}
             {selectedCard?.id === card.id && (
               <div className="absolute p-2 text-white bg-green-500 rounded-full shadow-lg top-2 right-2">✅</div>
             )}
