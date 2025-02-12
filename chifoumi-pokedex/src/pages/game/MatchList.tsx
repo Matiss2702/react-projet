@@ -4,6 +4,7 @@ import axios from "axios";
 import { Match } from "../../constants/type";
 import CreateMatchModal from "./components/CreateMatchModal";
 import { useUser } from "@/context/UserContext";
+import { Button } from "@/components/ui/button";
 
 export default function MatchList() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -19,7 +20,6 @@ export default function MatchList() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Matchs récupérés :", matchesResponse.data);
       setMatches(matchesResponse.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -36,13 +36,13 @@ export default function MatchList() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl">Liste des matchs</h1>
-        <button onClick={() => setShowModal(true)} className="px-4 py-2 text-white bg-blue-500 rounded">
+        <Button onClick={() => setShowModal(true)}>
           + Créer une partie
-        </button>
+        </Button>
       </div>
 
       <h2 className="mb-2 text-lg">Vos matchs</h2>
-      <table className="w-full mb-4 bg-white rounded shadow table-auto">
+      <table className="w-full mb-4 bg-white rounded shadow table-auto text-left">
         <thead>
           <tr className="bg-gray-200">
             <th className="p-2">ID</th>
@@ -65,12 +65,12 @@ export default function MatchList() {
                 <td className="p-2">{match.user2?.username || "En attente"}</td>
                 <td className="p-2">{winnerLabel}</td>
                 <td className="p-2">
-                  <button
+                  <Button
                     onClick={() => navigate(`/game/matches/${match._id}`)}
-                    className="px-4 py-2 text-white bg-green-500 rounded"
+                    className="px-4 py-2 bg-green-500 hover:bg-green-800 rounded text-white"
                   >
                     Voir
-                  </button>
+                  </Button>
                 </td>
               </tr>
             );

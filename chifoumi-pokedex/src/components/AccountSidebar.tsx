@@ -3,6 +3,7 @@ import { useUser } from "@/context/UserContext";
 import { NavHeader } from "@/components/AccountHeader";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const data = {
   homes: [
@@ -31,13 +32,13 @@ export function AppSidebar({ ...props }) {
       <SidebarContent></SidebarContent>
       <SidebarFooter>
         {userId && (
-          <button
+          <Button 
+            variant="destructive"
             onClick={handleLogout}
-            className="flex items-center gap-2 text-sm font-medium text-red-500 hover:text-red-600"
           >
             <LogOut className="w-4 h-4" />
             Déconnexion
-          </button>
+          </Button>
         )}
       </SidebarFooter>
       <SidebarRail />
