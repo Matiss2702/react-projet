@@ -3,14 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +13,7 @@ import { Link } from "react-router-dom";
 
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: "Nom d'utilisateur doit faire au moins 2 caractères.",
+    message: "Le nom d'utilisateur doit faire au moins 2 caractères.",
   }),
   password: z.string().min(12, {
     message: "Le mot de passe doit faire au moins 12 caractères.",
@@ -28,7 +21,7 @@ const formSchema = z.object({
 });
 
 export default function Login() {
-  const { setUserId } = useUser();
+  const { setUser } = useUser();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -50,13 +43,14 @@ export default function Login() {
       const token = response.data.token;
       localStorage.setItem("token", token);
 
-      const userId = extractUserIdFromToken(token);
-      if (!userId) {
-        throw new Error("Impossible de récupérer l'identifiant utilisateur depuis le token.");
+      const userData = extractUserFromToken(token);
+      if (!userData) {
+        throw new Error("Impossible de récupérer les informations utilisateur depuis le token.");
       }
 
-      localStorage.setItem("userId", userId);
-      setUserId(userId);
+      localStorage.setItem("userId", userData.id);
+      localStorage.setItem("username", userData.username);
+      setUser(userData);
 
       alert("Connexion réussie ! Vous allez être redirigé vers la liste des parties.");
       navigate("/game/matchlist");
@@ -75,29 +69,29 @@ export default function Login() {
     }
   };
 
-  const extractUserIdFromToken = (token: string): string | null => {
+  const extractUserFromToken = (token: string): { id: string; username: string } | null => {
     try {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      return decodedToken?._id || null;
+      if (decodedToken?._id && decodedToken?.username) {
+        return { id: decodedToken._id, username: decodedToken.username };
+      }
+      return null;
     } catch (error) {
-      console.error("Erreur lors de l'extraction de l'userId :", error);
+      console.error("Erreur lors de l'extraction des informations utilisateur :", error);
       return null;
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Card className="w-[450-px] mx-auto">
+      <Card className="w-[450px] mx-auto">
         <CardHeader>
           <CardTitle>Se connecter</CardTitle>
           <CardDescription>Connecte-toi pour défier tes amis</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleLogin)}
-              className="space-y-8 w-80"
-            >
+            <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8 w-80">
               <FormField
                 control={form.control}
                 name="username"
@@ -124,14 +118,18 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">Connexion</Button>
+              <Button type="submit" className="w-full">
+                Connexion
+              </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
           <p className="text-sm">
             <span>Tu n'as pas encore de compte ? </span>
-            <Link to="/auth/register" className="font-bold hover:underline">Inscris-toi</Link>
+            <Link to="/auth/register" className="font-bold hover:underline">
+              Inscris-toi
+            </Link>
           </p>
         </CardFooter>
       </Card>

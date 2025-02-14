@@ -16,7 +16,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
-  const { userId, clearUser } = useUser();
+  const { user, clearUser } = useUser();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -29,13 +29,10 @@ export function AppSidebar({ ...props }) {
       <SidebarHeader>
         <NavHeader homes={data.homes} />
       </SidebarHeader>
-      <SidebarContent></SidebarContent>
+      <SidebarContent />
       <SidebarFooter>
-        {userId && (
-          <Button 
-            variant="destructive"
-            onClick={handleLogout}
-          >
+        {user && (
+          <Button variant="destructive" onClick={handleLogout}>
             <LogOut className="w-4 h-4" />
             Déconnexion
           </Button>
