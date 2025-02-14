@@ -2,21 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Card, CardContent, CardTitle, CardHeader, CardDescription, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { cp } from "fs";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -45,8 +37,8 @@ export default function Register() {
         username: data.username,
         password: data.password,
       });
-      
-      if(response.status === 201) {
+
+      if (response.status === 201) {
         alert("Inscription réussie ! Vous allez être redirigé vers la page de connexion.");
         navigate("/auth/login");
       }
@@ -75,10 +67,7 @@ export default function Register() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleRegister)}
-              className="space-y-8 w-80"
-            >
+            <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-8 w-80">
               <FormField
                 control={form.control}
                 name="username"
@@ -105,14 +94,18 @@ export default function Register() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">S'inscrire</Button>
+              <Button type="submit" className="w-full">
+                S'inscrire
+              </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
           <p className="text-sm">
             <span>Tu as déjà un compte ? </span>
-            <Link to="/auth/login" className="font-bold hover:underline">Connecte-toi</Link>
+            <Link to="/auth/login" className="font-bold hover:underline">
+              Connecte-toi
+            </Link>
           </p>
         </CardFooter>
       </Card>
