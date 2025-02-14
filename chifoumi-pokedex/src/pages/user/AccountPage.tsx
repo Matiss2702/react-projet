@@ -2,6 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
 import { Match, Turn } from "@/constants/type";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface SelectedCard {
   id: string;
@@ -18,6 +21,7 @@ export default function AccountPage() {
     scissors: string;
     victories: string;
   } | null>(null);
+
   const [selectedCards, setSelectedCards] = useState<{
     fire: SelectedCard | null;
     grass: SelectedCard | null;
@@ -28,9 +32,9 @@ export default function AccountPage() {
     water: null,
   });
 
+  const [matchCount, setMatchCount] = useState<number>(0);
   const { userId } = useUser();
 
-  // Récupération des stats utilisateur
   const fetchUserStats = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -77,12 +81,13 @@ export default function AccountPage() {
         scissors: `${scissorsPercentage}%`,
         victories: `${victoriesPercentage}%`,
       });
+
+      setMatchCount(userMatches.length);
     } catch (error) {
       console.error("Erreur lors de la récupération des statistiques utilisateur :", error);
     }
   }, [userId]);
 
-  // Récupération des cartes sélectionnées (Feu, Plante, Eau)
   useEffect(() => {
     if (userId) {
       fetchUserStats();
@@ -100,58 +105,101 @@ export default function AccountPage() {
   }, [userId, fetchUserStats]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-white">
-      <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">User Account</h1>
-
-      {/* Tableau des statistiques */}
-      <table className="w-full mb-8 border border-gray-200 table-auto">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border">Username</th>
-            <th className="px-4 py-2 border">Pierre (Rock)</th>
-            <th className="px-4 py-2 border">Feuille (Paper)</th>
-            <th className="px-4 py-2 border">Ciseaux (Scissors)</th>
-            <th className="px-4 py-2 border">Victoire</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userStats ? (
-            <tr>
-              <td className="px-4 py-2 border">{userStats.username}</td>
-              <td className="px-4 py-2 border">{userStats.rock}</td>
-              <td className="px-4 py-2 border">{userStats.paper}</td>
-              <td className="px-4 py-2 border">{userStats.scissors}</td>
-              <td className="px-4 py-2 border">{userStats.victories}</td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan={5} className="px-4 py-2 text-center border">
-                Chargement des statistiques...
-              </td>
-            </tr>
+    <div className="flex flex-col gap-16 p-6 bg-whites">
+      <section className="grid grid-cols-1 gap-4">
+        <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">Mon compte</h1>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Mon compte :</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div>{userStats ? userStats.username : "Chargement..."}</div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+      <section className="grid grid-cols-1 gap-4">
+        <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">Pokémon Sélectionnés</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Object.entries(selectedCards).map(([type, card]) =>
+            card ? (
+              <div key={type} className="flex flex-col items-center p-4 border rounded-lg shadow-md">
+                <h2
+                  className={`text-2xl font-bold ${
+                    type === "fire" ? "text-red-500" : type === "grass" ? "text-green-500" : "text-blue-500"
+                  }`}
+                >
+                  {type === "fire" ? "🔥 Feu" : type === "grass" ? "🌱 Plante" : "💧 Eau"}
+                </h2>
+                <img src={card.imageUrl} alt={card.name} className="object-contain w-40 h-40 mt-2" />
+                <p className="mt-2 text-lg font-semibold">{card.name}</p>
+              </div>
+            ) : null
           )}
-        </tbody>
-      </table>
-
-      {/* Affichage des cartes Pokémon sélectionnées */}
-      <h2 className="mb-4 text-3xl font-bold">Pokémon Sélectionnés</h2>
-      <div className="grid grid-cols-3 gap-6">
-        {Object.entries(selectedCards).map(([type, card]) =>
-          card ? (
-            <div key={type} className="flex flex-col items-center p-4 border rounded-lg shadow-md">
-              <h2
-                className={`text-2xl font-bold ${
-                  type === "fire" ? "text-red-500" : type === "grass" ? "text-green-500" : "text-blue-500"
-                }`}
-              >
-                {type === "fire" ? "🔥 Feu" : type === "grass" ? "🌱 Plante" : "💧 Eau"}
-              </h2>
-              <img src={card.imageUrl} alt={card.name} className="object-contain w-40 h-40 mt-2" />
-              <p className="mt-2 text-lg font-semibold">{card.name}</p>
+        </div>
+      </section>
+      <section className="py-4">
+        <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">Mes statistiques</h1>
+        {!userStats ? (
+          <Alert variant="destructive" className="mb-8">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Erreur</AlertTitle>
+            <AlertDescription>
+              Aucune statistique disponible. Jouez quelques parties pour voir vos stats !
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Parties jouées :</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div>{matchCount}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>% Victoires :</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div>{userStats ? userStats.victories : "0%"}</div>
+                </CardContent>
+              </Card>
             </div>
-          ) : null
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>💧 Pierre :</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div>{userStats ? userStats.rock : "0%"}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>🌱 Feuille :</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div>{userStats ? userStats.paper : "0%"}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>🔥 Ciseaux :</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div>{userStats ? userStats.scissors : "0%"}</div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }
