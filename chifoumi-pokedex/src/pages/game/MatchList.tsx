@@ -5,6 +5,7 @@ import { Match } from "../../constants/type";
 import CreateMatchModal from "./components/CreateMatchModal";
 import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
+import { DefaultCardsDialog } from "@/components/defaultCardsDialog";
 
 export default function MatchList() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -34,6 +35,7 @@ export default function MatchList() {
 
   return (
     <div>
+      <DefaultCardsDialog />
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl">Liste des matchs</h1>
         <Button onClick={() => setShowModal(true)}>
