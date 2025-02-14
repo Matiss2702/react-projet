@@ -176,7 +176,7 @@ export default function AccountPage() {
             <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>💧 Pierre :</CardTitle>
+                  <CardTitle>💧 Eau (Pierre) :</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div>{userStats.rock}</div>
@@ -184,7 +184,7 @@ export default function AccountPage() {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>🌱 Feuille :</CardTitle>
+                  <CardTitle>🌱 Plante (Feuille) :</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div>{userStats.paper}</div>
@@ -192,7 +192,7 @@ export default function AccountPage() {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>🔥 Ciseaux :</CardTitle>
+                  <CardTitle>🔥 Feu (Ciseaux) :</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div>{userStats.scissors}</div>
