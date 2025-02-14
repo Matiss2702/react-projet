@@ -33,7 +33,8 @@ export default function AccountPage() {
   });
 
   const [matchCount, setMatchCount] = useState<number>(0);
-  const { userId } = useUser();
+
+  const { user } = useUser();
 
   const fetchUserStats = useCallback(async () => {
     try {
@@ -45,7 +46,10 @@ export default function AccountPage() {
       });
 
       const matches: Match[] = matchesResponse.data;
-      const userMatches = matches.filter((match: Match) => match.user1?._id === userId || match.user2?._id === userId);
+
+      const userMatches = matches.filter(
+        (match: Match) => match.user1?._id === user?.id || match.user2?._id === user?.id
+      );
 
       let rockCount = 0;
       let paperCount = 0;
@@ -54,14 +58,14 @@ export default function AccountPage() {
 
       userMatches.forEach((match: Match) => {
         match.turns.forEach((turn: Turn) => {
-          const userMove = match.user1?._id === userId ? turn.user1 : turn.user2;
+          const userMove = match.user1?._id === user?.id ? turn.user1 : turn.user2;
 
           if (userMove === "rock") rockCount++;
           if (userMove === "paper") paperCount++;
           if (userMove === "scissors") scissorsCount++;
         });
 
-        if (match.winner && match.winner._id === userId) {
+        if (match.winner && match.winner._id === user?.id) {
           victories++;
         }
       });
@@ -73,9 +77,7 @@ export default function AccountPage() {
       const victoriesPercentage = userMatches.length > 0 ? ((victories / userMatches.length) * 100).toFixed(2) : "0";
 
       setUserStats({
-        username:
-          matches.find((match) => match.user1?._id === userId || match.user2?._id === userId)?.user1?.username ||
-          "Utilisateur",
+        username: user?.username || "Utilisateur",
         rock: `${rockPercentage}%`,
         paper: `${paperPercentage}%`,
         scissors: `${scissorsPercentage}%`,
@@ -86,10 +88,10 @@ export default function AccountPage() {
     } catch (error) {
       console.error("Erreur lors de la récupération des statistiques utilisateur :", error);
     }
-  }, [userId]);
+  }, [user]);
 
   useEffect(() => {
-    if (userId) {
+    if (user) {
       fetchUserStats();
     }
 
@@ -102,14 +104,14 @@ export default function AccountPage() {
       grass: grassCard,
       water: waterCard,
     });
-  }, [userId, fetchUserStats]);
+  }, [user, fetchUserStats]);
 
   return (
     <div className="flex flex-col gap-16 p-6 bg-whites">
       <section className="grid grid-cols-1 gap-4">
         <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">Mon compte</h1>
         <div className="grid grid-cols-1 gap-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4">
+          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <Card>
               <CardHeader>
                 <CardTitle>Mon compte :</CardTitle>
@@ -123,7 +125,7 @@ export default function AccountPage() {
       </section>
       <section className="grid grid-cols-1 gap-4">
         <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">Pokémon Sélectionnés</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {Object.entries(selectedCards).map(([type, card]) =>
             card ? (
               <div key={type} className="flex flex-col items-center p-4 border rounded-lg shadow-md">
@@ -145,7 +147,7 @@ export default function AccountPage() {
         <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">Mes statistiques</h1>
         {!userStats ? (
           <Alert variant="destructive" className="mb-8">
-            <AlertCircle className="h-4 w-4" />
+            <AlertCircle className="w-4 h-4" />
             <AlertTitle>Erreur</AlertTitle>
             <AlertDescription>
               Aucune statistique disponible. Jouez quelques parties pour voir vos stats !
@@ -153,7 +155,7 @@ export default function AccountPage() {
           </Alert>
         ) : (
           <div className="grid grid-cols-1 gap-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4">
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               <Card>
                 <CardHeader>
                   <CardTitle>Parties jouées :</CardTitle>
@@ -167,17 +169,17 @@ export default function AccountPage() {
                   <CardTitle>% Victoires :</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div>{userStats ? userStats.victories : "0%"}</div>
+                  <div>{userStats.victories}</div>
                 </CardContent>
               </Card>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4">
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               <Card>
                 <CardHeader>
                   <CardTitle>💧 Pierre :</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div>{userStats ? userStats.rock : "0%"}</div>
+                  <div>{userStats.rock}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -185,7 +187,7 @@ export default function AccountPage() {
                   <CardTitle>🌱 Feuille :</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div>{userStats ? userStats.paper : "0%"}</div>
+                  <div>{userStats.paper}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -193,7 +195,7 @@ export default function AccountPage() {
                   <CardTitle>🔥 Ciseaux :</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div>{userStats ? userStats.scissors : "0%"}</div>
+                  <div>{userStats.scissors}</div>
                 </CardContent>
               </Card>
             </div>

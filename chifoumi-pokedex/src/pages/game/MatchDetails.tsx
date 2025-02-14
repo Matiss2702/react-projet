@@ -109,7 +109,7 @@ function getDefaultCardByMove(move: "rock" | "paper" | "scissors"): Card {
 
 export default function MatchDetails() {
   const { id } = useParams<{ id: string }>();
-  const { userId } = useUser();
+  const { user } = useUser();
 
   const [match, setMatch] = useState<Match | null>(null);
   const [selectedCard, setSelectedCard] = useState<SelectedCard | null>(null);
@@ -175,7 +175,7 @@ export default function MatchDetails() {
   );
 
   useEffect(() => {
-    if (!userId) {
+    if (!user || !user.id) {
       setError("Vous devez être connecté pour accéder à ce match.");
       return;
     }
@@ -186,7 +186,7 @@ export default function MatchDetails() {
         if (es) es.close();
       };
     }
-  }, [id, userId, fetchMatch, subscribeToMatch]);
+  }, [id, user, fetchMatch, subscribeToMatch]);
 
   const playMove = async () => {
     if (!match) {
@@ -240,14 +240,10 @@ export default function MatchDetails() {
 
   const currentMatch = match;
 
-  const isPlayer1 = currentMatch.user1?._id === userId;
-  const isPlayer2 = currentMatch.user2?._id === userId;
+  const isPlayer1 = currentMatch.user1?._id === user!.id;
+  const isPlayer2 = currentMatch.user2?._id === user!.id;
 
-  const myUsername = isPlayer1
-    ? currentMatch.user1?.username || "Joueur 1"
-    : isPlayer2
-    ? currentMatch.user2?.username || "Joueur 2"
-    : "Spectateur";
+  const myUsername = user!.username;
   const opponentUsername = isPlayer1
     ? currentMatch.user2?.username || "Joueur 2"
     : isPlayer2
@@ -291,7 +287,6 @@ export default function MatchDetails() {
         ) : (
           <p>Gagnant global : Aucun pour le moment</p>
         )}
-        {/* Optionnel : résumé des tours */}
         <h2 className="mt-4 text-lg">Tours joués</h2>
         <div className="mb-4">
           {currentMatch.turns.map((turn, index) => (
@@ -324,13 +319,11 @@ export default function MatchDetails() {
                       alt={card.name}
                       className="object-contain w-full h-full bg-center bg-no-repeat"
                     />
-                    <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 p-2 text-center">
+                    <div className="absolute bottom-0 left-0 w-full p-2 text-center bg-black bg-opacity-50">
                       <h3 className="text-lg font-semibold">{card.name}</h3>
                     </div>
                     {selectedCard?.id === card.id && (
-                      <div className="absolute p-2 bg-green-500 rounded-full shadow-lg top-2 right-2">
-                        ✅
-                      </div>
+                      <div className="absolute p-2 bg-green-500 rounded-full shadow-lg top-2 right-2">✅</div>
                     )}
                   </div>
                 ) : null
@@ -348,7 +341,7 @@ export default function MatchDetails() {
           </div>
         )}
       </div>
-      <div className="p-4 border-l border w-72">
+      <div className="p-4 border border-l w-72">
         <h2 className="mb-4 text-xl text-center">Historique</h2>
         {historyTurns.length === 0 ? (
           <p className="text-center">Aucun tour joué pour l’instant.</p>
