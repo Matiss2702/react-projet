@@ -58,6 +58,7 @@ export default function Login() {
       localStorage.setItem("userId", userId);
       setUserId(userId);
 
+      alert("Connexion réussie ! Vous allez être redirigé vers la liste des parties.");
       navigate("/game/matchlist");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

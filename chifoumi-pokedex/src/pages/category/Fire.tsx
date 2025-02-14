@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
 
-interface Card {
-  id: string;
-  value: "scissors";
-  imageUrl: string;
-  name: string;
-}
+import { Card } from "@/constants/card";
 
 const cardsData: Card[] = [
-  { id: "fire-card-1", value: "scissors", imageUrl: "/images/salameche.png", name: "Salamèche" },
-  { id: "fire-card-2", value: "scissors", imageUrl: "/images/reptincel.jpg", name: "Reptincel" },
-  { id: "fire-card-3", value: "scissors", imageUrl: "/images/dracaufeu.png", name: "Dracaufeu" },
-  { id: "fire-card-4", value: "scissors", imageUrl: "/images/poussifeu.png", name: "Poussifeu" },
-  { id: "fire-card-5", value: "scissors", imageUrl: "/images/galifeu.png", name: "Galifeu" },
-  { id: "fire-card-6", value: "scissors", imageUrl: "/images/brasegali.png", name: "Braségali" },
-  { id: "fire-card-7", value: "scissors", imageUrl: "/images/ouisticram.jpg", name: "Ouisticram" },
-  { id: "fire-card-8", value: "scissors", imageUrl: "/images/chimpenfeu.png", name: "Chimpenfeu" },
-  { id: "fire-card-9", value: "scissors", imageUrl: "/images/simiabraz.png", name: "Simiabraz" },
+  { id: "fire-card-1", value: "scissors", imageUrl: "/images/salameche.png", name: "Salamèche", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-2", value: "scissors", imageUrl: "/images/reptincel.jpg", name: "Reptincel", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-3", value: "scissors", imageUrl: "/images/dracaufeu.png", name: "Dracaufeu", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-4", value: "scissors", imageUrl: "/images/poussifeu.png", name: "Poussifeu", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-5", value: "scissors", imageUrl: "/images/galifeu.png", name: "Galifeu", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-6", value: "scissors", imageUrl: "/images/brasegali.png", name: "Braségali", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-7", value: "scissors", imageUrl: "/images/ouisticram.jpg", name: "Ouisticram", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-8", value: "scissors", imageUrl: "/images/chimpenfeu.png", name: "Chimpenfeu", type: "Fire", transaltion: "Feu" },
+  { id: "fire-card-9", value: "scissors", imageUrl: "/images/simiabraz.png", name: "Simiabraz", type: "Fire", transaltion: "Feu" },
 ];
 
 export default function Fire() {
@@ -40,11 +35,9 @@ export default function Fire() {
 
   const handleCardClick = (card: Card) => {
     if (selectedCard?.id === card.id) {
-      // Désélectionner la carte
       localStorage.removeItem("selectedFireCard");
       setSelectedCard(null);
     } else {
-      // Sélectionner une nouvelle carte et stocker ses infos
       localStorage.setItem("selectedFireCard", JSON.stringify(card));
       setSelectedCard(card);
     }
@@ -63,7 +56,7 @@ export default function Fire() {
             }`}
           >
             <img src={card.imageUrl} alt={card.name} className="object-contain w-full h-full bg-center bg-no-repeat" />
-            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded-md">{card.name}</div> {/* Affichage du nom */}
+            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded-md">{card.name}</div>
             {selectedCard?.id === card.id && (
               <div className="absolute p-2 text-white bg-green-500 rounded-full shadow-lg top-2 right-2">✅</div>
             )}

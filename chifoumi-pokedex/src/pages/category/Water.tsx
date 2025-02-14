@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
 
-interface Card {
-  id: string;
-  value: "rock";
-  imageUrl: string;
-  name: string;
-}
+import { Card } from "@/constants/card";
 
 const cardsData: Card[] = [
-  { id: "water-card-1", value: "rock", imageUrl: "/images/carapuce.webp", name: "Carapuce" },
-  { id: "water-card-2", value: "rock", imageUrl: "/images/carabaffe.png", name: "Carabaffe" },
-  { id: "water-card-3", value: "rock", imageUrl: "/images/tortank.png", name: "Tortank" },
-  { id: "water-card-4", value: "rock", imageUrl: "/images/gobou.png", name: "Gobou" },
-  { id: "water-card-5", value: "rock", imageUrl: "/images/flobio.png", name: "Flobio" },
-  { id: "water-card-6", value: "rock", imageUrl: "/images/laggron.png", name: "Laggron" },
-  { id: "water-card-7", value: "rock", imageUrl: "/images/tiplouf.png", name: "Tiplouf" },
-  { id: "water-card-8", value: "rock", imageUrl: "/images/prinplouf.png", name: "Prinplouf" },
-  { id: "water-card-9", value: "rock", imageUrl: "/images/pingoleon.png", name: "Pingoléon" },
+  { id: "water-card-1", value: "rock", imageUrl: "/images/carapuce.webp", name: "Carapuce", type: "Water", transaltion: "Eau" },
+  { id: "water-card-2", value: "rock", imageUrl: "/images/carabaffe.png", name: "Carabaffe", type: "Water", transaltion: "Eau" },
+  { id: "water-card-3", value: "rock", imageUrl: "/images/tortank.png", name: "Tortank", type: "Water", transaltion: "Eau" },
+  { id: "water-card-4", value: "rock", imageUrl: "/images/gobou.png", name: "Gobou", type: "Water", transaltion: "Eau" },
+  { id: "water-card-5", value: "rock", imageUrl: "/images/flobio.png", name: "Flobio", type: "Water", transaltion: "Eau" },
+  { id: "water-card-6", value: "rock", imageUrl: "/images/laggron.png", name: "Laggron", type: "Water", transaltion: "Eau" },
+  { id: "water-card-7", value: "rock", imageUrl: "/images/tiplouf.png", name: "Tiplouf", type: "Water", transaltion: "Eau" },
+  { id: "water-card-8", value: "rock", imageUrl: "/images/prinplouf.png", name: "Prinplouf", type: "Water", transaltion: "Eau" },
+  { id: "water-card-9", value: "rock", imageUrl: "/images/pingoleon.png", name: "Pingoléon", type: "Water", transaltion: "Eau" },
 ];
 
 export default function Water() {
@@ -59,7 +54,7 @@ export default function Water() {
             }`}
           >
             <img src={card.imageUrl} alt={card.name} className="object-contain w-full h-full bg-center bg-no-repeat" />
-            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded-md">{card.name}</div> {/* Affichage du nom */}
+            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded-md">{card.name}</div>
             {selectedCard?.id === card.id && (
               <div className="absolute p-2 text-white bg-green-500 rounded-full shadow-lg top-2 right-2">✅</div>
             )}

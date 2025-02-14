@@ -5,6 +5,7 @@ import { useUser } from "@/context/UserContext";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { Match, Turn } from "@/constants/type";
 import { Button } from "@/components/ui/button";
+
 interface Card {
   id: string;
   value: "rock" | "paper" | "scissors";
