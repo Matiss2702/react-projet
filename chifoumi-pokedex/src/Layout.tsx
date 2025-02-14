@@ -6,22 +6,18 @@ import { AppSidebar } from "@/components/AccountSidebar";
 import { Separator } from "@/components/ui/separator";
 import { Outlet, useLocation } from "react-router-dom";
 
-interface LayoutProps {
-  title?: string;
-}
-
-function Layout({ title = "" }: LayoutProps) {
+function Layout() {
   const location = useLocation();
 
   const isAccountPage = location.pathname.includes("account");
   const is404Page = location.pathname.includes("404");
 
-  if (isAccountPage) {
-    return (
-      <>
-        <Helmet>
-          <title>Chifoumi Pokémon - {title}</title>
-        </Helmet>
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Helmet>
+        <title>Chifoumi Pokémon</title>
+      </Helmet>
+      {isAccountPage ? (
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
@@ -36,33 +32,19 @@ function Layout({ title = "" }: LayoutProps) {
             </main>
           </SidebarInset>
         </SidebarProvider>
-      </>
-    );
-  }
-
-  if (is404Page) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <Helmet>
-          <title>Chifoumi Pokémon - {title}</title>
-        </Helmet>
+      ) : is404Page ? (
         <main className="container flex items-center justify-center flex-grow mx-auto">
           <Outlet />
         </main>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Chifoumi Pokémon - {title}</title>
-      </Helmet>
-      <Header />
-      <main className="container flex-grow p-4 mx-auto">
-        <Outlet />
-      </main>
-      <Footer />
+      ) : (
+        <>
+          <Header />
+          <main className="container flex-grow p-4 mx-auto">
+            <Outlet />
+          </main>
+          <Footer />
+        </>
+      )}
     </div>
   );
 }

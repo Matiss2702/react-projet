@@ -4,7 +4,7 @@ import axios from "axios";
 import { useUser } from "@/context/UserContext";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { Match, Turn } from "@/constants/type";
-
+import { Button } from "@/components/ui/button";
 interface Card {
   id: string;
   value: "rock" | "paper" | "scissors";
@@ -145,7 +145,6 @@ export default function MatchDetails() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMatch(response.data);
-      console.log("Match data fetched:", response.data);
     } catch (err) {
       console.error("Erreur lors de la récupération du match :", err);
       setError("Impossible de charger le match.");
@@ -162,8 +161,7 @@ export default function MatchDetails() {
       }
       const url = `${import.meta.env.VITE_API_URL}/matches/${matchId}/subscribe`;
       const eventSource = new EventSourcePolyfill(url, { headers: { Authorization: `Bearer ${token}` } });
-      eventSource.onmessage = (event) => {
-        console.log("SSE message reçu :", event.data);
+      eventSource.onmessage = () => {
         fetchMatch();
       };
       eventSource.onerror = (e) => {
@@ -317,7 +315,7 @@ export default function MatchDetails() {
                     key={type}
                     onClick={() => !currentUserHasPlayed && setSelectedCard(card)}
                     className={`relative w-48 h-60 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 ${
-                      selectedCard?.id === card.id ? "border-4 border-green-500 shadow-lg" : "border border-gray-300"
+                      selectedCard?.id === card.id ? "border-4 border-green-500 shadow-lg" : "border"
                     } ${currentUserHasPlayed ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     <img
@@ -325,8 +323,11 @@ export default function MatchDetails() {
                       alt={card.name}
                       className="object-contain w-full h-full bg-center bg-no-repeat"
                     />
+                    <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 p-2 text-center">
+                      <h3 className="text-lg font-semibold">{card.name}</h3>
+                    </div>
                     {selectedCard?.id === card.id && (
-                      <div className="absolute p-2 text-white bg-green-500 rounded-full shadow-lg top-2 right-2">
+                      <div className="absolute p-2 bg-green-500 rounded-full shadow-lg top-2 right-2">
                         ✅
                       </div>
                     )}
@@ -334,22 +335,22 @@ export default function MatchDetails() {
                 ) : null
               )}
             </div>
-            <button
+            <Button
               onClick={playMove}
               disabled={currentUserHasPlayed || !selectedCard}
-              className={`px-4 py-2 text-white bg-green-500 rounded mt-4 ${
+              className={`px-4 py-2 bg-green-500 rounded hover:bg-green-800 mt-4 text-white ${
                 currentUserHasPlayed || !selectedCard ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
               Valider le coup
-            </button>
+            </Button>
           </div>
         )}
       </div>
-      <div className="p-4 border-l border-gray-300 w-72">
+      <div className="p-4 border-l border w-72">
         <h2 className="mb-4 text-xl text-center">Historique</h2>
         {historyTurns.length === 0 ? (
-          <p className="text-center text-gray-500">Aucun tour joué pour l’instant.</p>
+          <p className="text-center">Aucun tour joué pour l’instant.</p>
         ) : (
           historyTurns.map((turn, index) => {
             let playerMove: "rock" | "paper" | "scissors" | undefined;
@@ -377,10 +378,10 @@ export default function MatchDetails() {
                         imageUrl={playerCard.imageUrl}
                         alt={playerCard.name}
                         flipped={true}
-                        className={winnerName === myUsername ? "border-green-500" : "border-gray-300"}
+                        className={winnerName === myUsername ? "border-green-500" : "border"}
                       />
                     ) : (
-                      <div className="flex items-center justify-center w-16 h-20 text-xs text-gray-500">-</div>
+                      <div className="flex items-center justify-center w-16 h-20 text-xs">-</div>
                     )}
                   </div>
                   <div className="flex flex-col items-center">
@@ -390,10 +391,10 @@ export default function MatchDetails() {
                         imageUrl={opponentCard.imageUrl}
                         alt={opponentCard.name}
                         flipped={true}
-                        className={winnerName === opponentUsername ? "border-green-500" : "border-gray-300"}
+                        className={winnerName === opponentUsername ? "border-green-500" : "border"}
                       />
                     ) : (
-                      <div className="flex items-center justify-center w-16 h-20 text-xs text-gray-500">-</div>
+                      <div className="flex items-center justify-center w-16 h-20 text-xs">-</div>
                     )}
                   </div>
                 </div>

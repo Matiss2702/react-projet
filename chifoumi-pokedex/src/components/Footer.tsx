@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="border-t border-t-slate-100 p-4">
+    <footer className="border-t border p-4">
       <div className="container mx-auto">
         <div className="text-xs text-center">
           <p>© 2025 - Shifumi Pokémon</p>

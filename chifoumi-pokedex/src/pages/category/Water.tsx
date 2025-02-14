@@ -55,12 +55,13 @@ export default function Water() {
             key={card.id}
             onClick={() => handleCardClick(card)}
             className={`relative w-48 h-60 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 ${
-              selectedCard?.id === card.id ? "border-4 border-blue-500 shadow-lg" : "border border-gray-300"
+              selectedCard?.id === card.id ? "border-4 border-green-500 shadow-lg" : "border border-gray-300"
             }`}
           >
             <img src={card.imageUrl} alt={card.name} className="object-contain w-full h-full bg-center bg-no-repeat" />
+            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded-md">{card.name}</div> {/* Affichage du nom */}
             {selectedCard?.id === card.id && (
-              <div className="absolute p-2 text-white bg-blue-500 rounded-full shadow-lg top-2 right-2">✅</div>
+              <div className="absolute p-2 text-white bg-green-500 rounded-full shadow-lg top-2 right-2">✅</div>
             )}
           </div>
         ))}

@@ -101,7 +101,7 @@ export default function AccountPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-white">
-      <h1 className="mb-8 text-4xl font-extrabold text-gray-800 drop-shadow-md">User Account</h1>
+      <h1 className="mb-8 text-4xl font-extrabold drop-shadow-md">User Account</h1>
 
       {/* Tableau des statistiques */}
       <table className="w-full mb-8 border border-gray-200 table-auto">
@@ -134,11 +134,11 @@ export default function AccountPage() {
       </table>
 
       {/* Affichage des cartes Pokémon sélectionnées */}
-      <h2 className="mb-4 text-3xl font-bold text-gray-700">Pokémon Sélectionnés</h2>
+      <h2 className="mb-4 text-3xl font-bold">Pokémon Sélectionnés</h2>
       <div className="grid grid-cols-3 gap-6">
         {Object.entries(selectedCards).map(([type, card]) =>
           card ? (
-            <div key={type} className="flex flex-col items-center p-4 border border-gray-300 rounded-lg shadow-md">
+            <div key={type} className="flex flex-col items-center p-4 border rounded-lg shadow-md">
               <h2
                 className={`text-2xl font-bold ${
                   type === "fire" ? "text-red-500" : type === "grass" ? "text-green-500" : "text-blue-500"
@@ -147,7 +147,7 @@ export default function AccountPage() {
                 {type === "fire" ? "🔥 Feu" : type === "grass" ? "🌱 Plante" : "💧 Eau"}
               </h2>
               <img src={card.imageUrl} alt={card.name} className="object-contain w-40 h-40 mt-2" />
-              <p className="mt-2 text-lg font-semibold text-gray-700">{card.name}</p>
+              <p className="mt-2 text-lg font-semibold">{card.name}</p>
             </div>
           ) : null
         )}

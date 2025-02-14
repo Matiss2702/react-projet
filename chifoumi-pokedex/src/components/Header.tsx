@@ -1,79 +1,70 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import AccountButton from "@/components/AccountButton";
 import { useUser } from "@/context/UserContext";
+import { Button } from "@/components/ui/button";
+import { Gamepad2 } from "lucide-react";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import { Droplet, Flame, Leaf } from "lucide-react";
 
 function Header() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { userId } = useUser();
-
-  let timeout: NodeJS.Timeout;
-
-  const handleMouseEnter = () => {
-    clearTimeout(timeout);
-    setIsDropdownOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeout = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 300);
-  };
-
+  
+  const link = userId ? { to: "/game/matchlist" } : { to: "/auth/login" };
+  const titleNavigation = userId ? "Choisir ses" : "Liste des";
   return (
-    <header className="p-4 bg-white shadow-md">
+    <header className="p-4 shadow-md border-b">
       <div className="container mx-auto">
         <nav className="flex items-center justify-between">
           <div className="flex items-center">
-            <Link to="/" className="text-lg font-bold transition hover:text-yellow-300">
+            <Link to="/" className="text-lg font-bold transition hover:text-yellow-300 text-yellow-500">
               Chifoumi Pokémon
             </Link>
           </div>
-          <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <button className="transition hover:underline hover:text-yellow-300">Category</button>
-            {isDropdownOpen && (
-              <div className="absolute left-0 z-10 bg-white border rounded-md shadow-md top-12">
-                <ul className="flex flex-col p-2">
-                  <li>
-                    <Link to="/category/water" className="block px-4 py-2 hover:bg-blue-100 hover:text-blue-500">
-                      Eau
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/category/fire" className="block px-4 py-2 hover:bg-red-100 hover:text-red-500">
-                      Feu
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/category/plant" className="block px-4 py-2 hover:bg-green-100 hover:text-green-500">
-                      Plante
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="min-w-48 justify-between">{titleNavigation} Pokémons</NavigationMenuTrigger>
+                <NavigationMenuContent className="w-full">
+                  <ul className="grid min-w-48">
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/category/water" className="flex items-center gap-4 px-4 py-2 hover:bg-blue-100 hover:text-blue-500">
+                          <Droplet className="h-4 w-4 mr-2" />
+                          <span>Eau</span>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/category/fire" className="flex items-center gap-4 px-4 py-2 hover:bg-red-100 hover:text-red-500">
+                          <Flame className="h-4 w-4 mr-2" />
+                          <span>Feu</span>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/category/plant" className="flex items-center gap-4 px-4 py-2 hover:bg-green-100 hover:text-green-500">
+                          <Leaf className="h-4 w-4 mr-2" />
+                          <span>Plante</span>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
           <div className="relative flex items-center gap-6">
-            {userId ? (
-              <>
-                <Link to="/game/matchlist" className="transition hover:underline hover:text-yellow-300">
-                  Game
-                </Link>
-                <AccountButton />
-              </>
-            ) : (
-              <>
-                <Link to="/auth/login" className="transition hover:underline hover:text-yellow-300">
-                  Connexion
-                </Link>
-                <Link to="/auth/register" className="transition hover:underline hover:text-yellow-300">
-                  Inscription
-                </Link>
-                <Link to="/game/matchlist" className="transition hover:underline hover:text-yellow-300">
-                  Game
-                </Link>
-              </>
-            )}
+            <AccountButton />
+              <Link to={link.to} className="ml-2">
+                <Button>
+                  <Gamepad2 />
+                    Jouer !
+                </Button>
+              </Link>
           </div>
         </nav>
       </div>

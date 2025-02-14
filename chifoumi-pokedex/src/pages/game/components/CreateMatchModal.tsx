@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { CreateMatchModalProps } from "@/constants/type";
-
+import { Button } from "@/components/ui/button";
 export default function CreateMatchModal({ onClose, onCreate }: CreateMatchModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,19 +41,24 @@ export default function CreateMatchModal({ onClose, onCreate }: CreateMatchModal
       <div className="p-6 bg-white rounded shadow w-96">
         <h2 className="mb-4 text-lg font-bold">Créer une nouvelle partie</h2>
         {error && <p className="mb-4 text-red-500">{error}</p>}
-
-        <button
+        <div className="grid gap-2">
+        <Button
           onClick={createMatch}
           disabled={loading}
-          className={`w-full px-4 py-2 text-white bg-blue-500 rounded ${
+          className={`${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           {loading ? "Création en cours..." : "Créer"}
-        </button>
-        <button onClick={onClose} disabled={loading} className="w-full px-4 py-2 mt-2 text-black bg-gray-300 rounded">
+        </Button>
+        <Button
+          variant="outline" 
+          onClick={onClose} disabled={loading}
+          className="w-full"
+          >
           Annuler
-        </button>
+        </Button>
+        </div>
       </div>
     </div>
   );
