@@ -91,7 +91,7 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8 w-80">
+            <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8 w-full">
               <FormField
                 control={form.control}
                 name="username"
