@@ -60,14 +60,14 @@ export default function Register() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Card className="w-[450-px] mx-auto">
+      <Card className="w-[450px] mx-auto">
         <CardHeader>
           <CardTitle>S'inscrire</CardTitle>
           <CardDescription>Crée ton compte pour commencer à jouer</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-8 w-80">
+            <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-8 w-full">
               <FormField
                 control={form.control}
                 name="username"
