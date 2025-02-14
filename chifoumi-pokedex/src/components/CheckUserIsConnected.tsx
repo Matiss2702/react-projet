@@ -1,20 +1,21 @@
 import { useUser } from "@/context/UserContext";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react"
+import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 interface Props {
   type?: string;
 }
 
 export default function CheckUserIsConnected({ type }: Props) {
-  const { userId } = useUser();
-  
+  const { user } = useUser();
+
+  if (user) return null;
+
   return (
-    userId ? null :
     <Alert variant="destructive" className="max-w-2xl mx-auto mb-16">
-      <AlertCircle className="h-4 w-4" />
+      <AlertCircle className="w-4 h-4" />
       <AlertTitle>Connexion requise !</AlertTitle>
       <AlertDescription className="flex flex-col gap-2">
         <p>Vous devez être connecté pour sélectionner votre Pokémon de type {type}.</p>
@@ -32,5 +33,5 @@ export default function CheckUserIsConnected({ type }: Props) {
         </div>
       </AlertDescription>
     </Alert>
-  )
+  );
 }

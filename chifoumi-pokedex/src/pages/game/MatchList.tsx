@@ -11,7 +11,7 @@ export default function MatchList() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { userId } = useUser();
+  const { user } = useUser();
 
   const fetchMatches = async () => {
     try {
@@ -31,20 +31,21 @@ export default function MatchList() {
     fetchMatches();
   }, []);
 
-  const matchesParticipating = matches.filter((match) => match.user1?._id === userId || match.user2?._id === userId);
+
+  const matchesParticipating = matches.filter(
+    (match) => match.user1?._id === user?.id || match.user2?._id === user?.id
+  );
 
   return (
     <div>
       <DefaultCardsDialog />
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl">Liste des matchs</h1>
-        <Button onClick={() => setShowModal(true)}>
-          + Créer une partie
-        </Button>
+        <Button onClick={() => setShowModal(true)}>+ Créer une partie</Button>
       </div>
 
       <h2 className="mb-2 text-lg">Vos matchs</h2>
-      <table className="w-full mb-4 bg-white rounded shadow table-auto text-left">
+      <table className="w-full mb-4 text-left bg-white rounded shadow table-auto">
         <thead>
           <tr className="bg-gray-200">
             <th className="p-2">ID</th>
@@ -69,7 +70,7 @@ export default function MatchList() {
                 <td className="p-2">
                   <Button
                     onClick={() => navigate(`/game/matches/${match._id}`)}
-                    className="px-4 py-2 bg-green-500 hover:bg-green-800 rounded text-white"
+                    className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-800"
                   >
                     Voir
                   </Button>
