@@ -9,36 +9,35 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<string | null>(() => {
-    const storedUserId = localStorage.getItem("userId");
-    return storedUserId;
+  const [userId, setUserIdState] = useState<string | null>(() => {
+    return localStorage.getItem("userId");
   });
 
-  const saveUserId = (id: string | null) => {
+  const setUserId = (id: string | null) => {
     if (id) {
       localStorage.setItem("userId", id);
     } else {
       localStorage.removeItem("userId");
     }
-    setUserId(id);
+    setUserIdState(id);
   };
 
   const clearUser = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
-    setUserId(null);
+    setUserIdState(null);
   };
 
   useEffect(() => {
     const handleStorageChange = () => {
-      setUserId(localStorage.getItem("userId"));
+      setUserIdState(localStorage.getItem("userId"));
     };
 
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  return <UserContext.Provider value={{ userId, setUserId: saveUserId, clearUser }}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{ userId, setUserId, clearUser }}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {
